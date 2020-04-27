@@ -1,4 +1,5 @@
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -7,36 +8,21 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class MeuPrimeiroTest {
+import java.util.concurrent.TimeUnit;
 
-    ChromeDriver driver;
-    WebDriverWait wait;
+import static org.junit.Assert.assertEquals;
 
-    @Before
-    public void init(){
-        System.setProperty("webdriver.chrome.driver","src/test/resources/chromedriver.exe");
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        wait = new WebDriverWait(driver,10);
-    }
+public class MeuPrimeiroTest extends BaseTest {
 
-    @After
-    public void tearDown(){
-        driver.close();
-    }
+
+    private Index index = new Index();
 
     @Test
-    public void Login() throws InterruptedException {
-        driver.get("https://seubarriga.wcaquino.me/login");
-        driver.findElement(By.xpath("//a[contains(text(),'Login')]")).click();
-        Thread.sleep(1000);
-        driver.findElement(By.id("email")).sendKeys("teste123@teste.com.br");
-        driver.findElement(By.id("senha")).sendKeys("1234");
-        Thread.sleep(1000);
-        driver.findElement(By.xpath("//button")).click();
-        Thread.sleep(1000);
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[contains(text(),'Bem vindo')]")));
+    public void Comprar() throws InterruptedException {
+        index.acessarAplicacao();
+        Assert.assertTrue(index.isLoginPagePresent());
+        index.selecionarProduto("Blouse");
+        Thread.sleep(3000);
     }
-
 
 }
